@@ -1,12 +1,14 @@
 [
-{ "name": "Template Plugin On",
-  "script": "on.sh",
-  "args": [
-  ]
-},
-{ "name": "Template Plugin Off",
-  "script": "off.sh",
-  "args": [
-  ]
-}
+    {
+        "name": "DO NOT PRESS DOWN",
+        "script": "down.sh",
+        "args": [
+        ]
+    },
+    {
+        "name": "DO NOT PRESS UP",
+        "script": "up.sh",
+        "args": [
+        ]
+    }
 ]

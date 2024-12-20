@@ -1,3 +1,3 @@
-# fpp-plugin-Template
-Template plugin for FPP Plugin developers
+# fpp-plugin-do-not-press
 
+FPP plugin for DO NOT PRESS buttons
