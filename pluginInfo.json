@@ -1,8 +1,8 @@
 {
-	"repoName": "fpp-do-not-press",
-	"name": "FPP Plugin for DO NOT PRESS buttons",
+	"repoName": "do-not-press",
+	"name": "DO NOT PRESS",
 	"author": "Josh Lewis (joshwlewis)",
-	"description": "This plugin adds DO NOT PRESS button functionality.",
+	"description": "Adds DO NOT PRESS button functionality. Rickroll visitors to the show, or play soundboard type noises (like burps, farts, one-up, buzzers, etc.).",
 	"homeURL": "https://github.com/joshwlewis/fpp-do-not-press",
 	"srcURL": "https://github.com/joshwlewis/fpp-do-not-press.git",
 	"bugURL": "https://github.com/joshwlewis/fpp-do-not-press/issues",
