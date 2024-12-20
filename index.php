@@ -13,8 +13,15 @@ foreach(scandir($playlistDirectory) as $pFile)
 <fieldset>
 <legend>DO NOT PRESS</legend>
 
-<p>Target Playlist: <?php PrintSettingSelect("TargetPlaylist", "PlaylistSelect", "0", "0", "disabled", $playlists, "do-not-press"); ?></p>
-<p>Primary Playlist: <?php PrintSettingSelect("PrimaryPlaylist", "PlaylistSelect", "0", "0", "disabled", $playlists, "do-not-press"); ?></p>
+<p>Target Playlist: <?php PrintSettingSelect("Target Playlist", "TargetPlaylist", "0", "0", "disabled", $playlists, "do-not-press"); ?></p>
+
+<p>Primary Playlist: <?php PrintSettingSelect("Primary Playlist", "PrimaryPlaylist", "0", "0", "disabled", $playlists, "do-not-press"); ?></p>
+
+<p>Success Playlist: <?php PrintSettingSelect("Success Playlist", "SuccessPlaylist", "0", "0", "disabled", $playlists, "do-not-press"); ?></p>
+
+<p>Error Playlist: <?php PrintSettingSelect("Error Playlist", "ErrorPlaylist", "0", "0", "disabled", $playlists, "do-not-press"); ?></p>
+
+<p>Interrupt Cooldown: <?php PrintSettingText("cooldown", 8, 8, "do-not-press"); ?></p>
 
 </fieldset>
 </div>
