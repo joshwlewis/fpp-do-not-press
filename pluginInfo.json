@@ -3,9 +3,9 @@
 	"name": "FPP Plugin for DO NOT PRESS buttons",
 	"author": "Josh Lewis (joshwlewis)",
 	"description": "This plugin adds DO NOT PRESS button functionality.",
-	"homeURL": "https://github.com/joshwlewis/do-not-press",
-	"srcURL": "https://github.com/joshwlewis/do-not-press.git",
-	"bugURL": "https://github.com/joshwlewis/do-not-press/issues",
+	"homeURL": "https://github.com/joshwlewis/fpp-plugin-do-not-press",
+	"srcURL": "https://github.com/joshwlewis/fpp-plugin-do-not-press.git",
+	"bugURL": "https://github.com/joshwlewis/fpp-plugin-do-not-press/issues",
 	"allowUpdates": 1,
 	"versions": [
 		{
