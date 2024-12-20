@@ -21,7 +21,7 @@ foreach(scandir($playlistDirectory) as $pFile)
 
 <p>Error Playlist: <?php PrintSettingSelect("Error Playlist", "ErrorPlaylist", "0", "0", "disabled", $playlists, "do-not-press"); ?></p>
 
-<p>Interrupt Cooldown: <?php PrintSettingText("cooldown", 8, 8, "do-not-press"); ?></p>
+<p>Interrupt Cooldown: <?php PrintSettingTextSaved("Cooldown", 0, 0, 8, 8, "do-not-press", 360000, "", "", "number"); ?></p>
 
 </fieldset>
 </div>
