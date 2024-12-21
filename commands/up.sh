@@ -11,16 +11,17 @@
 # This script will only interrupt the $PRIMARY_PLAYLIST every $MIN_INT_FREQUENCY.
 # This script will not interrupt the $EXCLUSIVE_PLAYLIST.
 
+set -eux
 shopt -s nullglob
 
-PLUGIN_DIR="$(builtin cd $(dirname $0))/.."
+PLUGIN_DIR=$(builtin cd "$(dirname $0)/.."; pwd)
 PLUGIN_NAME=$(basename $PLUGIN_DIR)
 TMPDIR="/var/tmp"
 PLUGIN_CFGFILE="$FPPHOME/media/config/plugin.${PLUGIN_NAME}"
-PRIMARY_PLAYLIST=$($FPPDIR/scripts/readSetting.awk -f "$PLUGIN_CFGFILE" "setting=PrimaryPlaylist")
-TARGET_PLAYLIST=$($FPPDIR/scripts/readSetting.awk -f "$PLUGIN_CFGFILE" "setting=TargetPlaylist")
-EXCLUSIVE_PLAYLIST=$($FPPDIR/scripts/readSetting.awk -f "$PLUGIN_CFGFILE" "setting=ExclusivePlaylist")
-INT_COOLDOWN=$($FPPDIR/scripts/readSetting.awk -f "$PLUGIN_CFGFILE" "setting=InterruptCooldown")
+PRIMARY_PLAYLIST=$(readSetting.awk "$PLUGIN_CFGFILE" "setting=PrimaryPlaylist")
+TARGET_PLAYLIST=$(readSetting.awk "$PLUGIN_CFGFILE" "setting=TargetPlaylist")
+EXCLUSIVE_PLAYLIST=$(readSetting.awk "$PLUGIN_CFGFILE" "setting=ExclusivePlaylist")
+INT_COOLDOWN=$(readSetting.awk "$PLUGIN_CFGFILE" "setting=InterruptCooldown")
 DOWN_FILE="$TMPDIR/$TARGET_PLAYLIST-down.txt"
 INT_FILE="$TMPDIR/$TARGET_PLAYLIST-interrupt.txt"
 LONG_PRESS_LENGTH=1500

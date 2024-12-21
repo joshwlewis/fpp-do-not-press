@@ -12,15 +12,16 @@
 # For this reason, use short sounds and sequences (under 1 second) for items
 # in $SUCCESS_PLAYLIST and $ERROR_PLAYLIST.
 
+set -eux
 shopt -s nullglob
 
-PLUGIN_DIR="$(builtin cd $(dirname $0))/.."
+PLUGIN_DIR=$(builtin cd "$(dirname $0)/.."; pwd)
 PLUGIN_NAME=$(basename $PLUGIN_DIR)
 TMPDIR="/var/tmp"
 PLUGIN_CFGFILE="$FPPHOME/media/config/plugin.${PLUGIN_NAME}"
-PRIMARY_PLAYLIST=$($FPPDIR/scripts/readSetting.awk -f "$PLUGIN_CFGFILE" "setting=PrimaryPlaylist")
-TARGET_PLAYLIST=$($FPPDIR/scripts/readSetting.awk -f "$PLUGIN_CFGFILE" "setting=TargetPlaylist")
-EXCLUSIVE_PLAYLIST=$($FPPDIR/scripts/readSetting.awk -f "$PLUGIN_CFGFILE" "setting=ExclusivePlaylist")
+PRIMARY_PLAYLIST=$(readSetting.awk "$PLUGIN_CFGFILE" "setting=PrimaryPlaylist")
+TARGET_PLAYLIST=$(readSetting.awk "$PLUGIN_CFGFILE" "setting=TargetPlaylist")
+EXCLUSIVE_PLAYLIST=$(readSetting.awk "$PLUGIN_CFGFILE" "setting=ExclusivePlaylist")
 DOWN_FILE="$TMPDIR/$TARGET_PLAYLIST-down.txt"
 INT_FILE="$TMPDIR/$TARGET_PLAYLIST-interrupt.txt"
 CURRENT_PLAYLIST=$(fpp -s | cut -d ',' -f 4)
@@ -32,10 +33,10 @@ if [[ $CURRENT_PLAYLIST == "$TARGET_PLAYLIST"  ||
       $CURRENT_PLAYLIST == "$EXCLUSIVE_PLAYLIST" ||
     ( $CURRENT_PLAYLIST == "$PRIMARY_PLAYLIST" && $(echo "$DOWN_AT < $NEXT_INT_AT" | bc -l ) -eq 1 ) ]]; then
   echo "Selecting error media."
-  TRIGGER_PLAYLIST=$($FPPDIR/scripts/readSetting.awk -f "$PLUGIN_CFGFILE" "setting=ErrorPlaylist")
+  TRIGGER_PLAYLIST=$(readSetting.awk "$PLUGIN_CFGFILE" "setting=ErrorPlaylist")
 else
   echo "Selecting ok media."
-  TRIGGER_PLAYLIST=$($FPPDIR/scripts/readSetting.awk -f "$PLUGIN_CFGFILE" "setting=SuccessPlaylist")
+  TRIGGER_PLAYLIST=$(readSetting.awk "$PLUGIN_CFGFILE" "setting=SuccessPlaylist")
 fi
 
 TRIGGER_ITEM=$(cat "$FPPHOME/media/playlists/$TARGET_PLAYLIST.json" | python -c 'import json,sys,random;d=json.load(sys.stdin);i=random.choice(d["mainPlaylist"]);print(i["sequenceName"],i["mediaName"],sep="---");')
