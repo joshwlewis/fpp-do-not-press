@@ -17,11 +17,13 @@ foreach(scandir($playlistDirectory) as $pFile)
 
 <p>Primary Playlist: <?php PrintSettingSelect("Primary Playlist", "PrimaryPlaylist", "0", "0", "disabled", $playlists, "do-not-press"); ?></p>
 
-<p>Success Playlist: <?php PrintSettingSelect("Success Playlist", "SuccessPlaylist", "0", "0", "disabled", $playlists, "do-not-press"); ?></p>
+<p>Exclusive Playlist: <?php PrintSettingSelect("Exclusive Playlist", "ExclusivePlaylist", "0", "0", "disabled", $playlists, "do-not-press"); ?></p>
 
-<p>Error Playlist: <?php PrintSettingSelect("Error Playlist", "ErrorPlaylist", "0", "0", "disabled", $playlists, "do-not-press"); ?></p>
+<p>Success Feedback Playlist: <?php PrintSettingSelect("Success Feedback Playlist", "SuccessPlaylist", "0", "0", "disabled", $playlists, "do-not-press"); ?></p>
 
-<p>Interrupt Cooldown: <?php PrintSettingTextSaved("Cooldown", 0, 0, 1000000, 0, "do-not-press", 360000, "", "", "number"); ?></p>
+<p>Error Feedback Playlist: <?php PrintSettingSelect("Error Feedback Playlist", "ErrorPlaylist", "0", "0", "disabled", $playlists, "do-not-press"); ?></p>
+
+<p>Interrupt Cooldown: <?php PrintSettingTextSaved("InteruptCooldown", 0, 0, 1000000, 0, "do-not-press", 360000, "", "", "number"); ?></p>
 
 </fieldset>
 </div>
