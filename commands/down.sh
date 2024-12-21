@@ -1,6 +1,6 @@
 #!/bin/bash
 
-# do-not-press-down.sh runs when the physical DO NOT PRESS button is depressed.
+# down.sh runs when the physical DO NOT PRESS button is depressed.
 # This is designed to provide feedback as to whether or not the button release
 # will activate an item on the $TARGET_PLAYLIST. If $TARGET_PLAYLIST is already
 # playing (somebody is spamming the button), $EXCLUSIVE_PLAYLIST is playing,

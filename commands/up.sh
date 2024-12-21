@@ -1,25 +1,29 @@
 #!/bin/bash
 
-# do-not-press-up.sh runs when the physical DO NOT PRESS button is released.
-# This script is designed to trigger only one $TARGET_PLAYLIST item per push. Each
-# successive run of this script should play the next $TARGET_PLAYLIST item or cycle
-# back to the beginning.
+# up.sh runs when the physical DO NOT PRESS button is released.
+# This script is designed to trigger only one $TARGET_PLAYLIST item per push.
+# Each successive run of this script should play the next $TARGET_PLAYLIST item
+# or cycle back to the beginning.
 # If $TARGET_PLAYLIST is already playing (probably from a previous button push),
 # it won't enqueue another $TARGET_PLAYLIST item.
 # If $TARGET_PLAYLIST is running and a long press is detected, that item will be
 # stopped and  normally scheduled programming will resume.
 # This script will only interrupt the $PRIMARY_PLAYLIST every $MIN_INT_FREQUENCY.
+# This script will not interrupt the $EXCLUSIVE_PLAYLIST.
 
 shopt -s nullglob
 
-TARGET_PLAYLIST="do-not-press"
-PRIMARY_PLAYLIST="show"
-REMOTE_PLAYLIST="remote"
-TMPDIR=/var/tmp
-LONG_PRESS_LENGTH=1500
-MIN_INT_FREQUENCY="${1:-300000}"
+PLUGIN_DIR="$(builtin cd $(dirname $0))/.."
+PLUGIN_NAME=$(basename $PLUGIN_DIR)
+TMPDIR="/var/tmp"
+PLUGIN_CFGFILE="$FPPHOME/media/config/plugin.${PLUGIN_NAME}"
+PRIMARY_PLAYLIST=$($FPPDIR/scripts/readSetting.awk -f "$PLUGIN_CFGFILE" "setting=PrimaryPlaylist")
+TARGET_PLAYLIST=$($FPPDIR/scripts/readSetting.awk -f "$PLUGIN_CFGFILE" "setting=TargetPlaylist")
+EXCLUSIVE_PLAYLIST=$($FPPDIR/scripts/readSetting.awk -f "$PLUGIN_CFGFILE" "setting=ExclusivePlaylist")
+INT_COOLDOWN=$($FPPDIR/scripts/readSetting.awk -f "$PLUGIN_CFGFILE" "setting=InterruptCooldown")
 DOWN_FILE="$TMPDIR/$TARGET_PLAYLIST-down.txt"
-INT_FILE="$TMPDIR/$PRIMARY_PLAYLIST-interrupt.txt"
+INT_FILE="$TMPDIR/$TARGET_PLAYLIST-interrupt.txt"
+LONG_PRESS_LENGTH=1500
 UP_AT=$(date +%s.%N)
 CURRENT_PLAYLIST=$(fpp -s | cut -d ',' -f 4)
 NEXT_INT_AT=$(<"$INT_FILE")
@@ -32,8 +36,8 @@ if [[  "$CURRENT_PLAYLIST" == "$TARGET_PLAYLIST" ]]; then
     fpp -C "Stop Now"
   fi
   exit 0;
-elif [[ "$CURRENT_PLAYLIST" == "$REMOTE_PLAYLIST" ]]; then
-  echo "Not interrupting $REMOTE_PLAYLIST playlist requests"
+elif [[ "$CURRENT_PLAYLIST" == "$EXCLUSIVE_PLAYLIST" ]]; then
+  echo "Not interrupting $REMOTE_PLAYLIST playlist"
   exit 0;
 elif [[ "$CURRENT_PLAYLIST" == "$PRIMARY_PLAYLIST" ]]; then
   if [[ $(echo "$UP_AT < $NEXT_INT_AT" | bc -l) -eq 1 ]]; then
@@ -57,4 +61,4 @@ echo "Playing $TARGET_PLAYLIST item $IDX"
 fpp -C "Insert Playlist Immediate" $TARGET_PLAYLIST $IDX $IDX 0
 
 # Store the timestamp at which the next interrupt can happen
-printf %s "$(date --date="+$((MIN_INT_FREQUENCY/1000)) seconds" +%s.%N)" > $INT_FILE &
+printf %s "$(date --date="+$((INT_COOLDOWN/1000)) seconds" +%s.%N)" > $INT_FILE &
