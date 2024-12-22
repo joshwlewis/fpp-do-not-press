@@ -27,10 +27,10 @@ INT_FILE="$TMPDIR/$TARGET_PLAYLIST-interrupt.txt"
 LONG_PRESS_LENGTH=1500
 UP_AT=$(date +%s.%N)
 CURRENT_PLAYLIST=$(fpp -s | cut -d ',' -f 4)
-NEXT_INT_AT=$(<"$INT_FILE")
+{ NEXT_INT_AT=$(<"$INT_FILE"); } 2> /dev/null
 if [[  "$CURRENT_PLAYLIST" == "$TARGET_PLAYLIST" ]]; then
   echo "Already playing $TARGET_PLAYLIST."
-  DOWN_AT=$(<"$DOWN_FILE")
+  { DOWN_AT=$(<"$DOWN_FILE"); } 2> /dev/null
   PRESS_LENGTH=$(echo "(${UP_AT} * 1000) - (${DOWN_AT} * 1000)" | bc | cut -f1 -d\.)
   if (( $PRESS_LENGTH > $LONG_PRESS_LENGTH )); then
     echo "Stopping $TARGET_PLAYLIST playlist now"

@@ -25,9 +25,10 @@ EXCLUSIVE_PLAYLIST=$(readSetting.awk "$PLUGIN_CFGFILE" "setting=ExclusivePlaylis
 DOWN_FILE="$TMPDIR/$TARGET_PLAYLIST-down.txt"
 INT_FILE="$TMPDIR/$TARGET_PLAYLIST-interrupt.txt"
 CURRENT_PLAYLIST=$(fpp -s | cut -d ',' -f 4)
-NEXT_INT_AT=$(<"$INT_FILE")
 DOWN_AT=$(date +%s.%N)
 echo -n "$DOWN_AT" > "$DOWN_FILE" &
+{ NEXT_INT_AT=$(<"$INT_FILE"); } 2> /dev/null
+NEXT_INT_AT="${NEXT_INT_AT:-${DOWN_AT}}"
 
 if [[ $CURRENT_PLAYLIST == "$TARGET_PLAYLIST"  ||
       $CURRENT_PLAYLIST == "$EXCLUSIVE_PLAYLIST" ||
